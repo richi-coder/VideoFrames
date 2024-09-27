@@ -40,13 +40,17 @@ export async function extractFramesFromVideo(videoUrl, fps = 25) {
       await new Promise(r => (seekResolve = r));
 
 
-      // context.drawImage(video, 0, 0, w, h);
-      // canvas.convertToBlob().then((blob) => {
-      //   const url = URL.createObjectURL(blob);
-      //   const image = new Image();
-      //   image.src = url;
-      //   images.push(image);
-      // });
+      context.drawImage(video, 0, 0, w, h);
+      // up to here: +9s
+
+      canvas.convertToBlob().then((blob) => {
+        const url = URL.createObjectURL(blob);
+        const image = new Image();
+        image.src = url;
+        images.push(image);
+      });
+      // up to here: +9s
+      
 
       currentTime += interval;
     }
