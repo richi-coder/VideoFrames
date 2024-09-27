@@ -8,11 +8,12 @@ var canvas,
 async function init() {
   var { frames, images, width, height } = await extractFramesFromVideo(
     "src/movie3.mp4",
-    25
+    20
   );
   framesList = images;
 
   canvas = document.getElementById("canvas");
+  // canvas = new OffscreenCanvas(width, height);
   context = canvas.getContext("2d");
 
   canvas.width = width;

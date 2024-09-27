@@ -6,7 +6,7 @@ export async function extractFramesFromVideo(videoUrl, fps = 25) {
     let video = document.createElement("video");
 
     let seekResolve;
-    video.addEventListener("seeked", async function() {
+    video.addEventListener("seeked", async function () {
       if (seekResolve) seekResolve();
     });
 
@@ -22,9 +22,11 @@ export async function extractFramesFromVideo(videoUrl, fps = 25) {
     }
     let duration = video.duration;
 
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
+
     let [w, h] = [video.videoWidth, video.videoHeight];
+    // let canvas = document.createElement("canvas");
+    let canvas = new OffscreenCanvas(w, h);
+    let context = canvas.getContext("2d");
     canvas.width = w;
     canvas.height = h;
 
@@ -37,19 +39,19 @@ export async function extractFramesFromVideo(videoUrl, fps = 25) {
       video.currentTime = currentTime;
       await new Promise(r => (seekResolve = r));
 
-      context.drawImage(video, 0, 0, w, h);
-      let base64ImageData = canvas.toDataURL();
-      frames.push(base64ImageData);
 
-      var image = new Image();
-      image.onload = function() {
-        // ctx.drawImage(image, 0, 0);
-      };
-      image.src = base64ImageData;
-      images.push(image);
+      // context.drawImage(video, 0, 0, w, h);
+      // canvas.convertToBlob().then((blob) => {
+      //   const url = URL.createObjectURL(blob);
+      //   const image = new Image();
+      //   image.src = url;
+      //   images.push(image);
+      // });
 
       currentTime += interval;
     }
+    console.log("Frames: ", images.length);
+    console.log('Time: ', performance.now())
     resolve({ frames, images, width: w, height: h });
   });
 }
