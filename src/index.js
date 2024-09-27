@@ -22,19 +22,21 @@ async function init() {
   // let interval = 1 / fps;
   // let currentTime = 0;
 
-  // document.addEventListener("mousemove", move, false);
+  document.addEventListener("mousemove", move, false);
   update();
 }
 
+function move(event) {
+  percent = event.pageX / window.innerWidth;
+}
+
 function update() {
+  // percent =  0;
   if (percent > 1) {
     percent = 0;
   }
-  percent += 0.01;
-  console.log(percent);
 
   var index = parseInt(percent * (framesList.length - 1));
-  console.log(index);
   context.drawImage(framesList[index], 0, 0, canvas.width, canvas.height);
   requestAnimationFrame(update);
 }
